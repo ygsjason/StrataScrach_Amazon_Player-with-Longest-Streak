@@ -5,6 +5,7 @@ import numpy as np
 # Start writing code
 df = players_results
 
+#Method_1
 df1 = df.sort_values(['player_id', 'match_date'], ascending = True)
 df1['pre'] = df1.groupby('player_id')['match_result'].shift(1)
 df1['cpr'] = np.where((df1['match_result'] == 'L') & (df1['pre'] == ('W')) | ((df1['match_result'] == 'W') & (df1['pre'] == 'W')), False, True)
@@ -22,7 +23,7 @@ df2[df2['streak'] == df2.streak.max()]
 #Get the all players with their longest streak
 df3 = df2.pivot_table(columns = 'player_id', values = 'streak', aggfunc = 'max').melt()
 
-##Method 2
+##Method_2
 df1 = df.groupby('player_id', as_index = False).agg({'match_result': 'sum'})
 
 df1['streak']= df1.match_result.str.split('L')
@@ -33,7 +34,7 @@ df2['n'] = df2.streak.apply(lambda x: len(x))
 
 df2[df2.n == df2.n.max()]
 
-##Method 3
+##Method_3
 m = df['match_result'].str.upper().ne('W')
 t = m.cumsum()
 r = m.cumsum()[~m]
