@@ -22,6 +22,8 @@ df2[df2['streak'] == df2.streak.max()]
 
 #Get the all players with their longest streak
 df3 = df2.pivot_table(columns = 'player_id', values = 'streak', aggfunc = 'max').melt()
+# 0r
+df3 = df2.groupby('player_id', as_index = False).agg({'streak': 'max'})
 
 ##Method_2
 df1 = df.groupby('player_id', as_index = False).agg({'match_result': 'sum'})
